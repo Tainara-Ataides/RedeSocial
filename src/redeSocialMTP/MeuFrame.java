@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eu;
+package redeSocialMTP;
 
+import redeSocialMTP.Conexao;
+import redeSocialMTP.Usuario;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;

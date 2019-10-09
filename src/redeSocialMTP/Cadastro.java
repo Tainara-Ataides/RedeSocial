@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor. Teste
  */
-package eu;
+package redeSocialMTP;
 
+import redeSocialMTP.Conexao;
+import redeSocialMTP.Usuario;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 

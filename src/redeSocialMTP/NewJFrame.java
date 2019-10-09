@@ -1,4 +1,7 @@
-package eu;
+package redeSocialMTP;
+
+import redeSocialMTP.MeuFrame;
+import redeSocialMTP.Cadastro;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -59,7 +62,7 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eu/index.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/controle/index.png"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

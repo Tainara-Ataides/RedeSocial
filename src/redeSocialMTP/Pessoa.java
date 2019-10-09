@@ -1,5 +1,5 @@
 
-package eu;
+package redeSocialMTP;
 
 public class Pessoa {
     

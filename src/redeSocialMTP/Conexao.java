@@ -1,4 +1,4 @@
-package eu;
+package redeSocialMTP;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
