@@ -12,7 +12,7 @@ public class Conexao {
     // string URL padrão
     // endereço: localhost
     // base de dados: mtp
-    private String url = "jdbc:postgresql://localhost/mtp";
+    private String url = "jdbc:postgresql://localhost/postgres";
 
     // usuário do postgres
     private String usuario = "gilberto";
@@ -51,7 +51,7 @@ public class Conexao {
         try {
             this.conn = DriverManager.getConnection(this.url, props);
         } catch (SQLException e) {
-            e.getMessage();
+            e.printStackTrace();
         }
 
     }
@@ -139,7 +139,7 @@ public class Conexao {
             ResultSet rs = ps.executeQuery(); //executar consulta
             if (rs.next()) {// verifico se retornou algum resultado do vetor
                 Usuario u = new Usuario();//instanciar usuario
-                u.setId(rs.getInt(1));//setar os usuarios 
+                u.setId(rs.getInt(1));//setar os usuarios
                 u.setNome(rs.getString(2));
                 u.setSenha(rs.getString(3));
                 u.setCidadeEstado(rs.getString(4));
@@ -160,14 +160,13 @@ public class Conexao {
 
     }
 
-    public void adicionarPessoa(String nome, String email, String senha, String cidadeEstado, String confirmarSenha) throws SQLException {
+    public void adicionarPessoa(String nome, String email, String senha, String cidadeEstado) throws SQLException {
 
-        PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa (nome, email, senha, cidade_estado, confirmar_senha) VALUES (?, ?, ?, ?, ?)");
+        PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa (nome, email, senha, cidade_estado) VALUES (?, ?, ?, ?)");
         st.setString(1, nome);
         st.setString(2, email);
         st.setString(3, senha);
         st.setString(4, cidadeEstado);
-        st.setString(5, confirmarSenha);
         st.executeUpdate();
         st.close();
 
