@@ -15,10 +15,10 @@ public class Conexao {
     private String url = "jdbc:postgresql://localhost/mtp";
 
     // usuário do postgres
-    private String usuario = "postgres";
+    private String usuario = "gilberto";
 
     // senha do postgres
-    private String senha = "ifg";
+    private String senha = "123456";
 
     // variável que guarda a conexão
     private Connection conn;
