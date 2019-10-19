@@ -12,7 +12,7 @@ public class Conexao {
     // string URL padrão
     // endereço: localhost
     // base de dados: mtp
-    private String url = "jdbc:postgresql://localhost/postgres";
+    private String url = "jdbc:postgresql://localhost/mtp";
 
     // usuário do postgres
     private String usuario = "gilberto";
@@ -65,20 +65,6 @@ public class Conexao {
         return this.conn;
     }
 
-    /**
-     * Método que cria a tabela pessoa para este exemplo.
-     *
-     * Normalmente, a criação de tabelas NÃO é feita pela aplicação.
-     */
-    public void criarTabela() {
-        try {
-            PreparedStatement st = this.conn.prepareStatement("CREATE TABLE pessoa (id serial primary key, nome text)");
-            st.execute();
-            st.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Método que insere uma pessoa no banco de dados
@@ -87,7 +73,8 @@ public class Conexao {
      */
     public void inserir() {
         try {
-            PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa (nome) VALUES (?)");
+            PreparedStatement st = this.conn.prepareStatement("INSERT INTO "
+                    + "pessoa (nome) VALUES (?)");
             st.setString(1, "Thiago");
             st.executeUpdate();
             st.close();
@@ -103,7 +90,8 @@ public class Conexao {
      */
     public void atualizar() {
         try {
-            PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa SET nome = ?");
+            PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
+                    + "SET nome = ?");
             st.setString(1, "Thiago 2");
             st.executeUpdate();
             st.close();
@@ -120,7 +108,8 @@ public class Conexao {
     public void excluir() {
 
         try {
-            PreparedStatement st = this.conn.prepareStatement("DELETE FROM pessoa WHERE id = ?");
+            PreparedStatement st = this.conn.prepareStatement("DELETE FROM "
+                    + "pessoa WHERE id = ?");
             st.setInt(1, 1);
             st.executeUpdate();
             st.close();
@@ -132,8 +121,9 @@ public class Conexao {
 
     public Usuario login(String email, String senha) {
         try {
-            PreparedStatement ps = this.conn
-                    .prepareStatement("SELECT id, nome, senha, cidade_estado, email  FROM pessoa WHERE email = ? AND senha = ?");
+            PreparedStatement ps = this.conn.prepareStatement("SELECT id, nome, "
+                    + "senha, cidade_estado, email  FROM pessoa WHERE email = ? "
+                    + "AND senha = ?");
             ps.setString(1, email);//atribuir String
             ps.setString(2, senha);
             ResultSet rs = ps.executeQuery(); //executar consulta
@@ -159,10 +149,25 @@ public class Conexao {
         return null;
 
     }
+    
+    public boolean comparar_emails(String email) throws SQLException {
+        PreparedStatement ps = this.conn.prepareStatement("SELECT id FROM pessoa"
+                + " WHERE email = ?");
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
-    public void adicionarPessoa(String nome, String email, String senha, String cidadeEstado) throws SQLException {
+    public void adicionarPessoa(String nome, String email, String senha, String 
+            cidadeEstado) throws SQLException {
 
-        PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa (nome, email, senha, cidade_estado) VALUES (?, ?, ?, ?)");
+        PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa "
+                + "(nome, email, senha, cidade_estado) VALUES (?, ?, ?, ?)");
         st.setString(1, nome);
         st.setString(2, email);
         st.setString(3, senha);
@@ -172,14 +177,16 @@ public class Conexao {
 
     }
 
-    public void alterar(String nome, String email, String senha, String cidadeEstado, int id) {
+    public void alterar (String nome, String email, String senha, String 
+            cidadeEstado) {
         try {
-            PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa SET nome = ?, email = ?, senha = ?, cidade_estado = ? WHERE id = ?");
+            PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
+                    + "SET nome = ?, senha = ?, cidade_estado = ? "
+                    + "WHERE email = ?");
             st.setString(1, nome);
-            st.setString(2, email);
-            st.setString(3, senha);
-            st.setString(4, cidadeEstado);
-            st.setInt(5, id);
+            st.setString(2, senha);
+            st.setString(3, cidadeEstado);
+            st.setString(4, email);
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
