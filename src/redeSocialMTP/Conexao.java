@@ -1,6 +1,8 @@
 package redeSocialMTP;
 
+import com.sun.org.apache.xalan.internal.xsltc.dom.BitArray;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -65,7 +67,6 @@ public class Conexao {
         return this.conn;
     }
 
-
     /**
      * Método que insere uma pessoa no banco de dados
      *
@@ -76,6 +77,19 @@ public class Conexao {
             PreparedStatement st = this.conn.prepareStatement("INSERT INTO "
                     + "pessoa (nome) VALUES (?)");
             st.setString(1, "Thiago");
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void inserir_post(String texto, int pessoa_id) {
+        try {
+            PreparedStatement st = this.conn.prepareStatement("INSERT INTO "
+                    + "post (texto, pessoa_id, data_post) VALUES (?, ?, now())");
+            st.setString(1, texto);
+            st.setInt(2, pessoa_id);
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
@@ -149,22 +163,50 @@ public class Conexao {
         return null;
 
     }
-    
+
+    public Post buscarPost(int pessoaId) {
+        try {
+            PreparedStatement ps = this.conn.prepareStatement("SELECT id, texto, "
+                    + "pessoa_id, imagem, data_post  FROM post WHERE pessoa_id = ? "
+            );
+            ps.setInt(1, pessoaId);//atribuir String
+            ResultSet rs = ps.executeQuery(); //executar consulta
+            if (rs.next()) {// verifico se retornou algum resultado do vetor
+                Post post = new Post();//instanciar usuario
+                post.setId(rs.getInt(1));//setar os usuarios
+                post.setTexto(rs.getString(2));
+                post.setImagem(rs.getBytes(4));
+                post.setDataPost(rs.getDate(5));
+                post.setPessoaId(rs.getInt(3));
+
+                return post;
+
+            } else {
+                return null;
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
     public boolean comparar_emails(String email) throws SQLException {
         PreparedStatement ps = this.conn.prepareStatement("SELECT id FROM pessoa"
                 + " WHERE email = ?");
         ps.setString(1, email);
         ResultSet rs = ps.executeQuery();
-        if(rs.next()){
+        if (rs.next()) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    public void adicionarPessoa(String nome, String email, String senha, String 
-            cidadeEstado) throws SQLException {
+    public void adicionarPessoa(String nome, String email, String senha, String cidadeEstado) throws SQLException {
 
         PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa "
                 + "(nome, email, senha, cidade_estado) VALUES (?, ?, ?, ?)");
@@ -177,8 +219,7 @@ public class Conexao {
 
     }
 
-    public void alterar (String nome, String email, String senha, String 
-            cidadeEstado) {
+    public void alterar(String nome, String email, String senha, String cidadeEstado) {
         try {
             PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
                     + "SET nome = ?, senha = ?, cidade_estado = ? "
