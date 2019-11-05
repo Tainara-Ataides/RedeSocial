@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class Conexao {
@@ -14,13 +15,13 @@ public class Conexao {
     // string URL padrão
     // endereço: localhost
     // base de dados: mtp
-    private String url = "jdbc:postgresql://localhost/Mtp";
+    private String url = "jdbc:postgresql://localhost/mtp";
 
     // usuário do postgres
-    private String usuario = "postgres";
+    private String usuario = "gilberto";
 
     // senha do postgres
-    private String senha = "ifg";
+    private String senha = "123456";
 
     // variável que guarda a conexão
     private Connection conn;
@@ -164,14 +165,15 @@ public class Conexao {
 
     }
 
-    public Post buscarPost(int pessoaId) {
+        public ArrayList<Post> buscarPost() {
+        
+        ArrayList<Post> posts = new ArrayList();
         try {
             PreparedStatement ps = this.conn.prepareStatement("SELECT id, texto, "
-                    + "pessoa_id, imagem, data_post  FROM post WHERE pessoa_id = ? "
+                    + "pessoa_id, imagem, data_post  FROM post"
             );
-            ps.setInt(1, pessoaId);//atribuir String
             ResultSet rs = ps.executeQuery(); //executar consulta
-            if (rs.next()) {// verifico se retornou algum resultado do vetor
+            while(rs.next()){
                 Post post = new Post();//instanciar usuario
                 post.setId(rs.getInt(1));//setar os usuarios
                 post.setTexto(rs.getString(2));
@@ -179,19 +181,32 @@ public class Conexao {
                 post.setDataPost(rs.getDate(5));
                 post.setPessoaId(rs.getInt(3));
 
-                return post;
-
-            } else {
-                return null;
-
+                posts.add(post);
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            return posts;
+        } catch (SQLException e) { 
+            return null;
         }
-
-        return null;
-
+    }
+    
+    public String buscarUsuarioDoPost(int id) {
+        
+        try {
+            PreparedStatement ps = this.conn.prepareStatement("SELECT nome FROM "
+                    + "post INNER JOIN pessoa ON (pessoa.id = post.pessoa_id) "
+                    + "WHERE post.id = ?"
+            );
+            ps.setInt(1, id);//atribuir String
+            ResultSet rs = ps.executeQuery(); //executar consulta
+            if(rs.next()){
+                String nome = rs.getString(1);
+                return nome;
+            }else{
+                return null;
+            }    
+        } catch (SQLException e) {
+            return null;
+        }
     }
 
     public boolean comparar_emails(String email) throws SQLException {

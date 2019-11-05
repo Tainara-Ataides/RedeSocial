@@ -14,7 +14,7 @@ CREATE TABLE post(
 	texto TEXT NOT NULL,
 	pessoa_id INT NOT NULL,
 	imagem BYTEA,
-data_post TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+        data_post TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (pessoa_id) REFERENCES pessoa (id)
