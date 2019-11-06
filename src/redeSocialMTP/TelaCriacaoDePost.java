@@ -6,6 +6,9 @@
 package redeSocialMTP;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -15,7 +18,9 @@ import javax.swing.JOptionPane;
  */
 public class TelaCriacaoDePost extends javax.swing.JFrame {
  
-    Usuario u;
+    Usuario u;        
+    File arquivo = null;
+    
     /**
      * Creates new form TelaCriaçaoDePost
      */
@@ -123,6 +128,19 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Texto nao pode ultrapassar  140 caracteres");
             jTextPane1.requestFocus();
         }
+       else if(arquivo != null) {
+           Conexao c = new Conexao();
+            c.conectar();
+            try {
+                c.inserirPostImagem(jTextPane1.getText(), u.getId(), arquivo);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(TelaCriacaoDePost.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null, "post salvo com sucesso! ");
+            new TelaPrincipal(this.u).setVisible(true);
+            dispose();
+           
+       }
         else{
             Conexao c = new Conexao();
             c.conectar();
@@ -138,14 +156,13 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
         // TODO add your handling code here:
         byte[] imagem;
         
-        File arquivo;
         JFileChooser fc = new JFileChooser();
         int retorno = fc.showOpenDialog(this);
 			
-			if (retorno == JFileChooser.APPROVE_OPTION) {
-				arquivo = fc.getSelectedFile();
-                                jLabel2.setText(arquivo.getName());
-                        }	
+            if (retorno == JFileChooser.APPROVE_OPTION) {
+                    arquivo = fc.getSelectedFile();
+                    jLabel2.setText(arquivo.getName());
+            }	
     }//GEN-LAST:event_abrirImagemActionPerformed
 
     

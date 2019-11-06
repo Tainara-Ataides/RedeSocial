@@ -5,12 +5,8 @@
  */
 package redeSocialMTP;
 
-import java.util.Date;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 
 /**
  *
@@ -29,12 +25,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     }
 
-    public TelaPrincipal(Usuario user) {
+    public TelaPrincipal(Usuario user){
         initComponents();
         this.u = user;
-        jLabel_usuario.setText(String.format("%s", user.getNome()));
-        setLocationRelativeTo (null);
+        jLabel_usuario.setText(user.getNome());
         mostrar_post();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -53,22 +49,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel_usuario = new javax.swing.JLabel();
         jTextField_buscar_usurio = new javax.swing.JTextField();
         jButton_criar_post = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jLabelUsuario1 = new javax.swing.JLabel();
-        jLabelData1 = new javax.swing.JLabel();
-        jLabelLike1 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jLabelUsuario2 = new javax.swing.JLabel();
-        jLabelData2 = new javax.swing.JLabel();
-        jLabelLike2 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
-        jLabelLike3 = new javax.swing.JLabel();
-        jLabelData3 = new javax.swing.JLabel();
-        jLabelUsuario3 = new javax.swing.JLabel();
         jButtonSair = new javax.swing.JButton();
+        jLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,42 +78,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        jLabelUsuario1.setText("Usuario");
-
-        jLabelData1.setText("data");
-
-        jLabelLike1.setText("like");
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane4.setViewportView(jTextArea2);
-
-        jLabelUsuario2.setText("Usuario");
-
-        jLabelData2.setText("data");
-
-        jLabelLike2.setText("like");
-
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane5.setViewportView(jTextArea3);
-
-        jLabelLike3.setText("like");
-
-        jLabelData3.setText("data");
-
-        jLabelUsuario3.setText("Usuario");
-
         jButtonSair.setText("Sair");
         jButtonSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSairActionPerformed(evt);
             }
         });
+
+        jScrollPane2.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,37 +110,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel_buscar_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelUsuario2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelData2)
-                                .addGap(102, 102, 102)
-                                .addComponent(jLabelLike2))
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelUsuario1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelData1)
-                                .addGap(102, 102, 102)
-                                .addComponent(jLabelLike1))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelUsuario3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabelData3)
-                                .addGap(102, 102, 102)
-                                .addComponent(jLabelLike3))
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton_criar_post)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(208, 208, 208)
                                 .addComponent(jButtonSair)))))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
@@ -205,28 +144,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_criar_post)
                     .addComponent(jButtonSair))
-                .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelUsuario1)
-                    .addComponent(jLabelData1)
-                    .addComponent(jLabelLike1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelUsuario2)
-                    .addComponent(jLabelData2)
-                    .addComponent(jLabelLike2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelUsuario3)
-                    .addComponent(jLabelData3)
-                    .addComponent(jLabelLike3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(jLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
@@ -250,25 +175,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSair;
     private javax.swing.JButton jButton_alterar_cadastro;
     private javax.swing.JButton jButton_criar_post;
-    private javax.swing.JLabel jLabelData1;
-    private javax.swing.JLabel jLabelData2;
-    private javax.swing.JLabel jLabelData3;
-    private javax.swing.JLabel jLabelLike1;
-    private javax.swing.JLabel jLabelLike2;
-    private javax.swing.JLabel jLabelLike3;
-    private javax.swing.JLabel jLabelUsuario1;
-    private javax.swing.JLabel jLabelUsuario2;
-    private javax.swing.JLabel jLabelUsuario3;
+    private javax.swing.JLabel jLabel;
     private javax.swing.JLabel jLabel_buscar_perfil;
     private javax.swing.JLabel jLabel_ola;
     private javax.swing.JLabel jLabel_usuario;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane_foto;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextField jTextField_buscar_usurio;
     // End of variables declaration//GEN-END:variables
 
@@ -280,46 +193,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void mostrar_post() {
-        SimpleDateFormat dataFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private void mostrar_post(){
         
-        ArrayList<Post> posts = new ArrayList();
-        
+
+        JLabel lbImagem = new JLabel();
+
+        ArrayList<Post> posts = new ArrayList<Post>();
+
         Conexao c = new Conexao();
-        c.conectar();
-        posts =  c.buscarPost();
-        
-        Collections.reverse(posts);
+        posts = c.buscarPost();
 
-        if(posts.size() == 1){
-            jLabelUsuario1.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(0).getId())));
-            jLabelData1.setText(dataFormat.format(posts.get(0).getDataPost()));
-            jTextArea1.setText(String.format("%s",posts.get(0).getTexto()));
-
-        }else if (posts.size() == 2){
-            jLabelUsuario1.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(0).getId())));
-            jLabelData1.setText(dataFormat.format(posts.get(0).getDataPost()));
-            jTextArea1.setText(String.format("%s",posts.get(0).getTexto()));
-
-            jLabelUsuario2.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(1).getId())));
-            jLabelData2.setText(dataFormat.format(posts.get(1).getDataPost()));
-            jTextArea2.setText(String.format("%s",posts.get(1).getTexto()));
-
-        }else if (posts.size() > 2){
-
-            jLabelUsuario1.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(0).getId())));
-            jLabelData1.setText(dataFormat.format(posts.get(0).getDataPost()));
-            jTextArea1.setText(String.format("%s",posts.get(0).getTexto()));
-
-            jLabelUsuario2.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(1).getId())));
-            jLabelData2.setText(dataFormat.format(posts.get(1).getDataPost()));
-            jTextArea2.setText(String.format("%s",posts.get(1).getTexto()));
-
-            jLabelUsuario3.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(2).getId())));
-            jLabelData3.setText(dataFormat.format(posts.get(2).getDataPost()));
-            jTextArea3.setText(String.format("%s",posts.get(2).getTexto()));
+        for (Post post1 : posts) {
+            
+            ConteudoPost conteudo = new ConteudoPost(post1);
+            
+            jPanel1.add(conteudo);
         }
-        
 
     }
 }

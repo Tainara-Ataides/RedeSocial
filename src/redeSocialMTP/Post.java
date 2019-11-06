@@ -5,7 +5,6 @@
  */
 package redeSocialMTP;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -19,6 +18,15 @@ public class Post {
     private byte[] imagem;
     private Date dataPost;
     private int pessoaId;
+    private String nomePessoa;
+
+    public String getNomePessoa() {
+        return nomePessoa;
+    }
+
+    public void setNomePessoa(String nomePessoa) {
+        this.nomePessoa = nomePessoa;
+    }
 
     public void setPessoaId(int pessoaId) {
         this.pessoaId = pessoaId;

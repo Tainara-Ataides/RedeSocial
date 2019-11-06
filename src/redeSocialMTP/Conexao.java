@@ -1,6 +1,9 @@
 package redeSocialMTP;
 
 import com.sun.org.apache.xalan.internal.xsltc.dom.BitArray;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -15,13 +18,13 @@ public class Conexao {
     // string URL padrão
     // endereço: localhost
     // base de dados: mtp
-    private String url = "jdbc:postgresql://localhost/mtp";
+    private String url = "jdbc:postgresql://localhost/Mtp";
 
     // usuário do postgres
-    private String usuario = "gilberto";
+    private String usuario = "postgres";
 
     // senha do postgres
-    private String senha = "123456";
+    private String senha = "ifg";
 
     // variável que guarda a conexão
     private Connection conn;
@@ -91,6 +94,21 @@ public class Conexao {
                     + "post (texto, pessoa_id, data_post) VALUES (?, ?, now())");
             st.setString(1, texto);
             st.setInt(2, pessoa_id);
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+     public void inserirPostImagem(String texto, int pessoa_id, File arquivo) throws FileNotFoundException {
+         FileInputStream fis = new FileInputStream(arquivo);
+        try {
+            PreparedStatement st = this.conn.prepareStatement("INSERT INTO "
+                    + "post (texto, pessoa_id, data_post, imagem) VALUES (?, ?, now(), ?)");
+            st.setString(1, texto);
+            st.setInt(2, pessoa_id);
+            st.setBinaryStream(3, fis, (int) arquivo.length());
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
@@ -170,41 +188,22 @@ public class Conexao {
         ArrayList<Post> posts = new ArrayList();
         try {
             PreparedStatement ps = this.conn.prepareStatement("SELECT id, texto, "
-                    + "pessoa_id, imagem, data_post  FROM post"
+                    + "pessoa_id, imagem, data_post, nome FROM post INNER JOIN  pessoa ON (pessoa.id = post.pessoa_id)"
             );
             ResultSet rs = ps.executeQuery(); //executar consulta
             while(rs.next()){
                 Post post = new Post();//instanciar usuario
                 post.setId(rs.getInt(1));//setar os usuarios
                 post.setTexto(rs.getString(2));
+                post.setPessoaId(rs.getInt(3));
                 post.setImagem(rs.getBytes(4));
                 post.setDataPost(rs.getDate(5));
-                post.setPessoaId(rs.getInt(3));
+                post.setNomePessoa(rs.getString(6));
 
                 posts.add(post);
             }
             return posts;
         } catch (SQLException e) { 
-            return null;
-        }
-    }
-    
-    public String buscarUsuarioDoPost(int id) {
-        
-        try {
-            PreparedStatement ps = this.conn.prepareStatement("SELECT nome FROM "
-                    + "post INNER JOIN pessoa ON (pessoa.id = post.pessoa_id) "
-                    + "WHERE post.id = ?"
-            );
-            ps.setInt(1, id);//atribuir String
-            ResultSet rs = ps.executeQuery(); //executar consulta
-            if(rs.next()){
-                String nome = rs.getString(1);
-                return nome;
-            }else{
-                return null;
-            }    
-        } catch (SQLException e) {
             return null;
         }
     }
@@ -234,6 +233,8 @@ public class Conexao {
 
     }
 
+    
+    
     public void alterar(String nome, String email, String senha, String cidadeEstado) {
         try {
             PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
