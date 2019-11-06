@@ -68,6 +68,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabelLike3 = new javax.swing.JLabel();
         jLabelData3 = new javax.swing.JLabel();
         jLabelUsuario3 = new javax.swing.JLabel();
+        jButtonSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -123,6 +124,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabelUsuario3.setText("Usuario");
 
+        jButtonSair.setText("Sair");
+        jButtonSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSairActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,33 +154,32 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabel_buscar_perfil, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabelUsuario2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabelData2)
-                                    .addGap(102, 102, 102)
-                                    .addComponent(jLabelLike2))
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabelUsuario1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabelData1)
-                                        .addComponent(jButton_criar_post))
-                                    .addGap(102, 102, 102)
-                                    .addComponent(jLabelLike1))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabelUsuario3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabelData3)
-                                    .addGap(102, 102, 102)
-                                    .addComponent(jLabelLike3))
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelUsuario2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelData2)
+                                .addGap(102, 102, 102)
+                                .addComponent(jLabelLike2))
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelUsuario1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelData1)
+                                .addGap(102, 102, 102)
+                                .addComponent(jLabelLike1))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelUsuario3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelData3)
+                                .addGap(102, 102, 102)
+                                .addComponent(jLabelLike3))
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton_criar_post)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonSair)))))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -194,9 +201,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(53, 53, 53)
                         .addComponent(jTextField_buscar_usurio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton_criar_post)
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_criar_post)
+                    .addComponent(jButtonSair))
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelUsuario1)
                     .addComponent(jLabelData1)
@@ -233,7 +242,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton_criar_postActionPerformed
 
+    private void jButtonSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSairActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButtonSairActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonSair;
     private javax.swing.JButton jButton_alterar_cadastro;
     private javax.swing.JButton jButton_criar_post;
     private javax.swing.JLabel jLabelData1;
@@ -275,40 +289,37 @@ public class TelaPrincipal extends javax.swing.JFrame {
         c.conectar();
         posts =  c.buscarPost();
         
-        if(!posts.equals(null)){
-            Collections.reverse(posts);
-            
-            if(posts.size() == 1){
-                jLabelUsuario1.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(0).getId())));
-                jLabelData1.setText(dataFormat.format(posts.get(0).getDataPost()));
-                jTextArea1.setText(String.format("%s",posts.get(0).getTexto()));
+        Collections.reverse(posts);
 
-            }else if (posts.size() == 2){
-                jLabelUsuario1.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(0).getId())));
-                jLabelData1.setText(dataFormat.format(posts.get(0).getDataPost()));
-                jTextArea1.setText(String.format("%s",posts.get(0).getTexto()));
-                
-                jLabelUsuario2.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(1).getId())));
-                jLabelData2.setText(dataFormat.format(posts.get(1).getDataPost()));
-                jTextArea2.setText(String.format("%s",posts.get(1).getTexto()));
+        if(posts.size() == 1){
+            jLabelUsuario1.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(0).getId())));
+            jLabelData1.setText(dataFormat.format(posts.get(0).getDataPost()));
+            jTextArea1.setText(String.format("%s",posts.get(0).getTexto()));
 
-            }else if (posts.size() > 2){
+        }else if (posts.size() == 2){
+            jLabelUsuario1.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(0).getId())));
+            jLabelData1.setText(dataFormat.format(posts.get(0).getDataPost()));
+            jTextArea1.setText(String.format("%s",posts.get(0).getTexto()));
 
-                jLabelUsuario1.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(0).getId())));
-                jLabelData1.setText(dataFormat.format(posts.get(0).getDataPost()));
-                jTextArea1.setText(String.format("%s",posts.get(0).getTexto()));
+            jLabelUsuario2.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(1).getId())));
+            jLabelData2.setText(dataFormat.format(posts.get(1).getDataPost()));
+            jTextArea2.setText(String.format("%s",posts.get(1).getTexto()));
 
-                jLabelUsuario2.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(1).getId())));
-                jLabelData2.setText(dataFormat.format(posts.get(1).getDataPost()));
-                jTextArea2.setText(String.format("%s",posts.get(1).getTexto()));
+        }else if (posts.size() > 2){
 
-                jLabelUsuario3.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(2).getId())));
-                jLabelData3.setText(dataFormat.format(posts.get(2).getDataPost()));
-                jTextArea3.setText(String.format("%s",posts.get(2).getTexto()));
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Não existe post");
+            jLabelUsuario1.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(0).getId())));
+            jLabelData1.setText(dataFormat.format(posts.get(0).getDataPost()));
+            jTextArea1.setText(String.format("%s",posts.get(0).getTexto()));
+
+            jLabelUsuario2.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(1).getId())));
+            jLabelData2.setText(dataFormat.format(posts.get(1).getDataPost()));
+            jTextArea2.setText(String.format("%s",posts.get(1).getTexto()));
+
+            jLabelUsuario3.setText(String.format("%s",c.buscarUsuarioDoPost(posts.get(2).getId())));
+            jLabelData3.setText(dataFormat.format(posts.get(2).getDataPost()));
+            jTextArea3.setText(String.format("%s",posts.get(2).getTexto()));
         }
+        
 
     }
 }
