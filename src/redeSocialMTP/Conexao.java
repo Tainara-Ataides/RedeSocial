@@ -187,7 +187,7 @@ public class Conexao {
         
         ArrayList<Post> posts = new ArrayList();
         try {
-            PreparedStatement ps = this.conn.prepareStatement("SELECT id, texto, "
+            PreparedStatement ps = this.conn.prepareStatement("SELECT post.id, texto, "
                     + "pessoa_id, imagem, data_post, nome FROM post INNER JOIN  pessoa ON (pessoa.id = post.pessoa_id)"
             );
             ResultSet rs = ps.executeQuery(); //executar consulta
@@ -203,8 +203,8 @@ public class Conexao {
                 posts.add(post);
             }
             return posts;
-        } catch (SQLException e) { 
-            return null;
+        } catch (SQLException e) {
+            return posts;
         }
     }
 

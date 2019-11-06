@@ -34,7 +34,7 @@ public class ConteudoPost extends javax.swing.JPanel {
         jLabelData.setText(dataFormat.format(post.getDataPost()));
         jLabelTexto.setText(post.getTexto());
         
-        if(post.getImagem()!= null){
+        if(post.getImagem() != null){
         
             try {
                 InputStream is = new ByteArrayInputStream(post.getImagem());
