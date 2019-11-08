@@ -24,7 +24,6 @@ CREATE TABLE like_post(
 	id SERIAL NOT NULL,
 	pessoa_id INT NOT NULL,
 	post_id INT NOT NULL,
-	data_like TIMESTAMP WITHOUT TIME ZONE NOT NULL,
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (pessoa_id) REFERENCES pessoa (id),

@@ -1,11 +1,9 @@
 package redeSocialMTP;
 
-import com.sun.org.apache.xalan.internal.xsltc.dom.BitArray;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,13 +16,13 @@ public class Conexao {
     // string URL padrão
     // endereço: localhost
     // base de dados: mtp
-    private String url = "jdbc:postgresql://localhost/Mtp";
+    private String url = "jdbc:postgresql://localhost/mtp";
 
     // usuário do postgres
-    private String usuario = "postgres";
+    private String usuario = "gilberto";
 
     // senha do postgres
-    private String senha = "ifg";
+    private String senha = "123456";
 
     // variável que guarda a conexão
     private Connection conn;
@@ -183,12 +181,14 @@ public class Conexao {
 
     }
 
-        public ArrayList<Post> buscarPost() {
+    public ArrayList<Post> buscarPost() {
         
         ArrayList<Post> posts = new ArrayList();
         try {
-            PreparedStatement ps = this.conn.prepareStatement("SELECT post.id, texto, "
-                    + "pessoa_id, imagem, data_post, nome FROM post INNER JOIN  pessoa ON (pessoa.id = post.pessoa_id)"
+            PreparedStatement ps = this.conn.prepareStatement("SELECT post.id, "
+                    + "texto, pessoa_id, imagem, data_post, nome FROM post "
+                    + "INNER JOIN  pessoa ON (pessoa.id = post.pessoa_id)"
+                    + "ORDER BY data_post DESC"
             );
             ResultSet rs = ps.executeQuery(); //executar consulta
             while(rs.next()){
@@ -207,6 +207,33 @@ public class Conexao {
             return posts;
         }
     }
+    
+    public ArrayList<LikePost> buscarLikePost() {
+        
+        ArrayList<LikePost> likePosts = new ArrayList<LikePost>();
+        try {
+            PreparedStatement ps = this.conn.prepareStatement("SELECT like_post.id, "
+                    + "like_post.pessoa_id, post_id, pessoa.nome FROM like_post "
+                    + "INNER JOIN post ON (post.id = like_post.post_id)"
+                    + "INNER JOIN pessoa ON (pessoa.id = post.pessoa_id)"
+                    + "ORDER BY like_post.id DESC"
+            );
+            ResultSet rs = ps.executeQuery(); //executar consulta
+            while(rs.next()){
+                LikePost likePost = new LikePost();//instanciar usuario
+                likePost.setId(rs.getInt(1));//setar os usuarios
+                likePost.setNomeId(rs.getInt(2));
+                likePost.setPostId(rs.getInt(3));
+                likePost.setNomeLike(rs.getString(4));
+
+                likePosts.add(likePost);
+            }
+            return likePosts;
+        } catch (SQLException e) {
+            return likePosts;
+        }
+    }
+
 
     public boolean comparar_emails(String email) throws SQLException {
         PreparedStatement ps = this.conn.prepareStatement("SELECT id FROM pessoa"
@@ -220,7 +247,8 @@ public class Conexao {
         }
     }
 
-    public void adicionarPessoa(String nome, String email, String senha, String cidadeEstado) throws SQLException {
+    public void adicionarPessoa(String nome, String email, String senha, String 
+            cidadeEstado) throws SQLException {
 
         PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa "
                 + "(nome, email, senha, cidade_estado) VALUES (?, ?, ?, ?)");
@@ -233,6 +261,16 @@ public class Conexao {
 
     }
 
+    public void registarLike(Integer nomeId, Integer postId) throws SQLException {
+
+        try (PreparedStatement st = this.conn.prepareStatement("INSERT INTO like_post "
+                + "(pessoa_id, post_id) VALUES (?, ?)")) {
+            st.setInt(1, nomeId);
+            st.setInt(2, postId);
+            st.executeUpdate();
+        }
+
+    }
     
     
     public void alterar(String nome, String email, String senha, String cidadeEstado) {

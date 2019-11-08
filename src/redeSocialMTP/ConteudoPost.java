@@ -9,15 +9,21 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author ifg
  */
 public class ConteudoPost extends javax.swing.JPanel {
+    
+    Post p = null;
+    Usuario u = null;
 
     /**
      * Creates new form ConteudoPost
@@ -26,13 +32,24 @@ public class ConteudoPost extends javax.swing.JPanel {
         initComponents();
     }
 
-    public ConteudoPost(Post post) {
+    public ConteudoPost(Post post, Usuario user, ArrayList<LikePost> likePosts) {
+        this.u = user;
+        this.p = post;
         initComponents();
         SimpleDateFormat dataFormat = new SimpleDateFormat("dd/MM/yyyy");
+        
+        int cont = 0;
+        
+        for (LikePost likepost1 : likePosts) {
+            if(this.p.getId() == likepost1.getPostId()){
+                cont ++;
+            }
+        }
 
         jLabelUsuario.setText(post.getNomePessoa());
         jLabelData.setText(dataFormat.format(post.getDataPost()));
-        jLabelTexto.setText(post.getTexto());
+        jTextArea.setText(post.getTexto());
+        jLabel1.setText(String.valueOf(cont));
         
         if(post.getImagem() != null){
         
@@ -57,59 +74,93 @@ public class ConteudoPost extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabelUsuario = new javax.swing.JLabel();
-        jLabelTexto = new javax.swing.JLabel();
         jLabelData = new javax.swing.JLabel();
         jLabelLike = new javax.swing.JLabel();
         jLabelImagem = new javax.swing.JLabel();
+        jButtonCurtir = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jTextArea = new javax.swing.JTextArea();
+
+        setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        setPreferredSize(new java.awt.Dimension(350, 259));
 
         jLabelUsuario.setText("Usuario");
 
         jLabelData.setText("Data");
 
-        jLabelLike.setText("like");
+        jLabelLike.setText("likes:");
+
+        jButtonCurtir.setText("Curtir");
+        jButtonCurtir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCurtirActionPerformed(evt);
+            }
+        });
+
+        jTextArea.setEditable(false);
+        jTextArea.setColumns(20);
+        jTextArea.setRows(5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelImagem))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelUsuario)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
-                        .addComponent(jLabelData, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(104, 104, 104)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addComponent(jLabelData)
+                        .addGap(54, 54, 54)
                         .addComponent(jLabelLike)
-                        .addGap(28, 28, 28))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jButtonCurtir)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jLabelImagem, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextArea, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelUsuario)
-                    .addComponent(jLabelData, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelLike, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelTexto)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelData)
+                        .addComponent(jLabelLike)
+                        .addComponent(jLabelUsuario)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButtonCurtir)
+                .addContainerGap(7, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonCurtirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCurtirActionPerformed
+        Conexao c = new Conexao();
+        try {
+            c.registarLike(this.u.getId(), this.p.getId());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Não foi possível registrar seu like");
+        }
+    }//GEN-LAST:event_jButtonCurtirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonCurtir;
+    private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabelData;
-    public javax.swing.JLabel jLabelImagem;
+    private javax.swing.JLabel jLabelImagem;
     public javax.swing.JLabel jLabelLike;
-    public javax.swing.JLabel jLabelTexto;
     public javax.swing.JLabel jLabelUsuario;
+    private javax.swing.JTextArea jTextArea;
     // End of variables declaration//GEN-END:variables
 }
