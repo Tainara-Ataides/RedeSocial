@@ -16,6 +16,16 @@ public class Usuario {
     private String email;
     private String senha;
     private String cidadeEstado;
+    
+    private byte[] imagem;
+
+    public byte[] getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(byte[] imagem) {
+        this.imagem = imagem;
+    }
 
     public int getId() {
         return id;

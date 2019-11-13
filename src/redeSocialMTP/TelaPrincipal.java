@@ -5,7 +5,13 @@
  */
 package redeSocialMTP;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -27,6 +33,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public TelaPrincipal(Usuario user){
         initComponents();
         this.u = user;
+        if(user.getImagem() != null){
+        
+            try {
+                InputStream is = new ByteArrayInputStream(user.getImagem());
+                BufferedImage imag = ImageIO.read(is);
+                ImageIcon icon = new ImageIcon(imag);
+                jLabelFoto.setIcon(icon);
+            } catch (IOException ex) {
+
+            }
+        }
         jLabel_usuario.setText(user.getNome());
         mostrar_post();
         setLocationRelativeTo(null);
@@ -41,7 +58,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane_foto = new javax.swing.JScrollPane();
         jButton_alterar_cadastro = new javax.swing.JButton();
         jLabel_ola = new javax.swing.JLabel();
         jLabel_usuario = new javax.swing.JLabel();
@@ -51,6 +67,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jLabelFoto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,7 +129,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton_criar_post)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane_foto, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel_ola)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -130,17 +147,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_ola))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField_buscar_usurio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 20, Short.MAX_VALUE)
-                        .addComponent(jScrollPane_foto, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabelFoto, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_criar_post, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,11 +197,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSair;
     private javax.swing.JButton jButton_alterar_cadastro;
     private javax.swing.JButton jButton_criar_post;
+    private javax.swing.JLabel jLabelFoto;
     private javax.swing.JLabel jLabel_ola;
     private javax.swing.JLabel jLabel_usuario;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane_foto;
     private javax.swing.JTextField jTextField_buscar_usurio;
     // End of variables declaration//GEN-END:variables
 
@@ -198,16 +215,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void mostrar_post(){
         
-        ArrayList<LikePost> likePost = new ArrayList<LikePost>();
         ArrayList<Post> posts = new ArrayList<Post>();
 
         Conexao c = new Conexao();
         posts = c.buscarPost();
-        likePost = c.buscarLikePost();
+       
 
         for (Post post1 : posts) {
             
-            ConteudoPost conteudo = new ConteudoPost(post1, this.u, likePost);
+            ConteudoPost conteudo = new ConteudoPost(post1, this.u);
             
             jPanel1.add(conteudo);
         }

@@ -161,7 +161,7 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
        }
         else{
             Conexao c = new Conexao();
-            c.inserir_post(jTextPane1.getText(), u.getId());
+            c.inserirPost(jTextPane1.getText(), u.getId());
             JOptionPane.showMessageDialog(null, "post salvo com sucesso! ");
             new TelaPrincipal(this.u).setVisible(true);
             dispose();
@@ -171,7 +171,7 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
 
     private void abrirImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirImagemActionPerformed
         // TODO add your handling code here:
-        byte[] imagem;
+   
         
         JFileChooser fc = new JFileChooser();
         int retorno = fc.showOpenDialog(this);

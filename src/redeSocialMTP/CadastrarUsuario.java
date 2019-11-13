@@ -181,7 +181,7 @@ public class CadastrarUsuario extends javax.swing.JFrame {
             
         } else {
             try {
-                if (c.comparar_emails(email.getText())){
+                if (c.compararEmails(email.getText())){
                         JOptionPane.showMessageDialog(null, "email já cadastrado");
                         email.requestFocus();
                 } else {

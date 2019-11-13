@@ -16,13 +16,13 @@ public class Conexao {
     // string URL padrão
     // endereço: localhost
     // base de dados: mtp
-    private String url = "jdbc:postgresql://localhost/mtp";
+    private String url = "jdbc:postgresql://localhost/Mtp";
 
     // usuário do postgres
-    private String usuario = "gilberto";
+    private String usuario = "postgres";
 
     // senha do postgres
-    private String senha = "123456";
+    private String senha = "ifg";
 
     // variável que guarda a conexão
     private Connection conn;
@@ -86,7 +86,7 @@ public class Conexao {
         }
     }
 
-    public void inserir_post(String texto, int pessoa_id) {
+    public void inserirPost(String texto, int pessoa_id) {
         try {
             PreparedStatement st = this.conn.prepareStatement("INSERT INTO "
                     + "post (texto, pessoa_id, data_post) VALUES (?, ?, now())");
@@ -153,7 +153,7 @@ public class Conexao {
     public Usuario login(String email, String senha) {
         try {
             PreparedStatement ps = this.conn.prepareStatement("SELECT id, nome, "
-                    + "senha, cidade_estado, email  FROM pessoa WHERE email = ? "
+                    + "senha, cidade_estado, email, foto  FROM pessoa WHERE email = ? "
                     + "AND senha = ?");
             ps.setString(1, email);//atribuir String
             ps.setString(2, senha);
@@ -164,6 +164,7 @@ public class Conexao {
                 u.setNome(rs.getString(2));
                 u.setSenha(rs.getString(3));
                 u.setCidadeEstado(rs.getString(4));
+                u.setImagem(rs.getBytes(6));
                 u.setEmail(rs.getString(5));
 
                 return u;
@@ -185,10 +186,11 @@ public class Conexao {
         
         ArrayList<Post> posts = new ArrayList();
         try {
-            PreparedStatement ps = this.conn.prepareStatement("SELECT post.id, "
-                    + "texto, pessoa_id, imagem, data_post, nome FROM post "
-                    + "INNER JOIN  pessoa ON (pessoa.id = post.pessoa_id)"
-                    + "ORDER BY data_post DESC"
+            PreparedStatement ps = this.conn.prepareStatement("SELECT post.id, texto, "
+                    + "pessoa_id, imagem, data_post, nome, (select COUNT (*) from "
+                    + "like_post WHERE like_post.post_id = post.id) as likes FROM post "
+                    + "INNER JOIN  pessoa ON (pessoa.id = post.pessoa_id) "
+                    + "ORDER BY data_post DESC limit 3"
             );
             ResultSet rs = ps.executeQuery(); //executar consulta
             while(rs.next()){
@@ -199,11 +201,13 @@ public class Conexao {
                 post.setImagem(rs.getBytes(4));
                 post.setDataPost(rs.getDate(5));
                 post.setNomePessoa(rs.getString(6));
+                post.setQuantLike(rs.getInt(7));
 
                 posts.add(post);
             }
             return posts;
         } catch (SQLException e) {
+            e.printStackTrace();
             return posts;
         }
     }
@@ -233,9 +237,22 @@ public class Conexao {
             return likePosts;
         }
     }
+    
+    public int buscarQuantLike(int postId) throws SQLException {
+        PreparedStatement ps = this.conn.prepareStatement("select COUNT (*) from like_post "
+                + "INNER JOIN post ON (post.id = like_post.post_id) WHERE like_post.post_id = ?");
+        ps.setInt(1, postId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            int quantLike = rs.getInt(1);
+            return quantLike;
+        } else {
+            return 0;
+        }
+    }
 
 
-    public boolean comparar_emails(String email) throws SQLException {
+    public boolean compararEmails(String email) throws SQLException {
         PreparedStatement ps = this.conn.prepareStatement("SELECT id FROM pessoa"
                 + " WHERE email = ?");
         ps.setString(1, email);
@@ -282,6 +299,24 @@ public class Conexao {
             st.setString(2, senha);
             st.setString(3, cidadeEstado);
             st.setString(4, email);
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void alterarPessoaImagem(String nome, String email, String senha, String cidadeEstado, File arquivo) throws FileNotFoundException {
+        
+        try {
+            FileInputStream fis = new FileInputStream(arquivo);
+            PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
+                    + "SET nome = ?, senha = ?, cidade_estado = ?, foto = ? "
+                    + "WHERE email = ?");
+            st.setString(1, nome);
+            st.setString(2, senha);
+            st.setString(3, cidadeEstado);
+            st.setString(5, email);
+            st.setBinaryStream(4, fis, (int) arquivo.length());
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {

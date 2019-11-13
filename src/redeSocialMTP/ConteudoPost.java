@@ -32,24 +32,18 @@ public class ConteudoPost extends javax.swing.JPanel {
         initComponents();
     }
 
-    public ConteudoPost(Post post, Usuario user, ArrayList<LikePost> likePosts) {
+    public ConteudoPost(Post post, Usuario user ) {
         this.u = user;
         this.p = post;
         initComponents();
+        
         SimpleDateFormat dataFormat = new SimpleDateFormat("dd/MM/yyyy");
         
-        int cont = 0;
         
-        for (LikePost likepost1 : likePosts) {
-            if(this.p.getId() == likepost1.getPostId()){
-                cont ++;
-            }
-        }
-
         jLabelUsuario.setText(post.getNomePessoa());
         jLabelData.setText(dataFormat.format(post.getDataPost()));
         jTextArea.setText(post.getTexto());
-        jLabel1.setText(String.valueOf(cont));
+        jLabel1.setText(String.valueOf(post.getQuantLike()));
         
         if(post.getImagem() != null){
         
@@ -149,6 +143,7 @@ public class ConteudoPost extends javax.swing.JPanel {
         Conexao c = new Conexao();
         try {
             c.registarLike(this.u.getId(), this.p.getId());
+            jLabel1.setText(String.valueOf(c.buscarQuantLike(this.p.getId())));
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Não foi possível registrar seu like");
         }

@@ -19,6 +19,15 @@ public class Post {
     private Date dataPost;
     private int pessoaId;
     private String nomePessoa;
+    private int quantLike;
+
+    public int getQuantLike() {
+        return quantLike;
+    }
+
+    public void setQuantLike(int quantLike) {
+        this.quantLike = quantLike;
+    }
 
     public String getNomePessoa() {
         return nomePessoa;
