@@ -98,9 +98,9 @@ public class Conexao {
             e.printStackTrace();
         }
     }
-    
-     public void inserirPostImagem(String texto, int pessoa_id, File arquivo) throws FileNotFoundException {
-         FileInputStream fis = new FileInputStream(arquivo);
+
+    public void inserirPostImagem(String texto, int pessoa_id, File arquivo) throws FileNotFoundException {
+        FileInputStream fis = new FileInputStream(arquivo);
         try {
             PreparedStatement st = this.conn.prepareStatement("INSERT INTO "
                     + "post (texto, pessoa_id, data_post, imagem) VALUES (?, ?, now(), ?)");
@@ -183,7 +183,7 @@ public class Conexao {
     }
 
     public ArrayList<Post> buscarPost() {
-        
+
         ArrayList<Post> posts = new ArrayList();
         try {
             PreparedStatement ps = this.conn.prepareStatement("SELECT post.id, texto, "
@@ -193,7 +193,7 @@ public class Conexao {
                     + "ORDER BY data_post DESC limit 3"
             );
             ResultSet rs = ps.executeQuery(); //executar consulta
-            while(rs.next()){
+            while (rs.next()) {
                 Post post = new Post();//instanciar usuario
                 post.setId(rs.getInt(1));//setar os usuarios
                 post.setTexto(rs.getString(2));
@@ -211,9 +211,9 @@ public class Conexao {
             return posts;
         }
     }
-    
+
     public ArrayList<LikePost> buscarLikePost() {
-        
+
         ArrayList<LikePost> likePosts = new ArrayList<LikePost>();
         try {
             PreparedStatement ps = this.conn.prepareStatement("SELECT like_post.id, "
@@ -223,7 +223,7 @@ public class Conexao {
                     + "ORDER BY like_post.id DESC"
             );
             ResultSet rs = ps.executeQuery(); //executar consulta
-            while(rs.next()){
+            while (rs.next()) {
                 LikePost likePost = new LikePost();//instanciar usuario
                 likePost.setId(rs.getInt(1));//setar os usuarios
                 likePost.setNomeId(rs.getInt(2));
@@ -237,7 +237,7 @@ public class Conexao {
             return likePosts;
         }
     }
-    
+
     public int buscarQuantLike(int postId) throws SQLException {
         PreparedStatement ps = this.conn.prepareStatement("select COUNT (*) from like_post "
                 + "INNER JOIN post ON (post.id = like_post.post_id) WHERE like_post.post_id = ?");
@@ -251,7 +251,6 @@ public class Conexao {
         }
     }
 
-
     public boolean compararEmails(String email) throws SQLException {
         PreparedStatement ps = this.conn.prepareStatement("SELECT id FROM pessoa"
                 + " WHERE email = ?");
@@ -264,8 +263,7 @@ public class Conexao {
         }
     }
 
-    public void adicionarPessoa(String nome, String email, String senha, String 
-            cidadeEstado) throws SQLException {
+    public void adicionarPessoa(String nome, String email, String senha, String cidadeEstado) throws SQLException {
 
         PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa "
                 + "(nome, email, senha, cidade_estado) VALUES (?, ?, ?, ?)");
@@ -273,6 +271,21 @@ public class Conexao {
         st.setString(2, email);
         st.setString(3, senha);
         st.setString(4, cidadeEstado);
+        st.executeUpdate();
+        st.close();
+
+    }
+
+    public void adicionarPessoaImagem(String nome, String email, String senha, String cidadeEstado, File imagem) throws SQLException, FileNotFoundException {
+
+        FileInputStream fis = new FileInputStream(imagem);
+        PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa "
+                + "(nome, email, senha, cidade_estado, foto) VALUES (?, ?, ?, ?, ?)");
+        st.setString(1, nome);
+        st.setString(2, email);
+        st.setString(3, senha);
+        st.setString(4, cidadeEstado);
+        st.setBinaryStream(5, fis, imagem.length());
         st.executeUpdate();
         st.close();
 
@@ -288,8 +301,7 @@ public class Conexao {
         }
 
     }
-    
-    
+
     public void alterar(String nome, String email, String senha, String cidadeEstado) {
         try {
             PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
@@ -305,8 +317,9 @@ public class Conexao {
             e.printStackTrace();
         }
     }
+
     public void alterarPessoaImagem(String nome, String email, String senha, String cidadeEstado, File arquivo) throws FileNotFoundException {
-        
+
         try {
             FileInputStream fis = new FileInputStream(arquivo);
             PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "

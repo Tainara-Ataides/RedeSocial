@@ -5,7 +5,12 @@
  */
 package redeSocialMTP;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,6 +20,7 @@ import javax.swing.JOptionPane;
 public class CadastrarUsuario extends javax.swing.JFrame {
 
     Usuario u;
+    File arquivo;
 
     /**
      * Creates new form Cadastro
@@ -46,6 +52,9 @@ public class CadastrarUsuario extends javax.swing.JFrame {
         confirmar_senha = new javax.swing.JPasswordField();
         jButton_cadastrar = new javax.swing.JButton();
         jButton_cancelar = new javax.swing.JButton();
+        jButtonInserirFoto = new javax.swing.JButton();
+        jLabelArquivo = new javax.swing.JLabel();
+        jLabelNomeArquivo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,79 +89,95 @@ public class CadastrarUsuario extends javax.swing.JFrame {
             }
         });
 
+        jButtonInserirFoto.setText("Inserir Foto");
+        jButtonInserirFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonInserirFotoActionPerformed(evt);
+            }
+        });
+
+        jLabelArquivo.setText("Arquivo:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel_confirmar_senha)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(confirmar_senha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel_senha)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(senha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel_cidade_estado)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cidade_estado))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel_email)
-                                .addGap(9, 9, 9)
-                                .addComponent(email))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel_nome)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(44, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addComponent(jButton_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(81, 81, 81))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel_cadastro_de_usuario)
-                .addGap(155, 155, 155))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonInserirFoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel_nome)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nome))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel_email)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(email))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(98, 98, 98)
+                        .addComponent(jLabel_cadastro_de_usuario))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelArquivo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabelNomeArquivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel_cidade_estado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cidade_estado))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel_senha)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(senha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel_confirmar_senha)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(confirmar_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(11, 11, 11)
                 .addComponent(jLabel_cadastro_de_usuario)
-                .addGap(17, 17, 17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel_email, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(14, 14, 14)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel_email, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cidade_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel_cidade_estado, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(senha, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel_confirmar_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(confirmar_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jLabelArquivo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabelNomeArquivo, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(jButton_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonInserirFoto))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -166,33 +191,41 @@ public class CadastrarUsuario extends javax.swing.JFrame {
     private void jButton_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_cadastrarActionPerformed
         Conexao c = new Conexao();
         c.conectar();
-        
-        if(nome.getText().trim().equals("")){
+
+        if (nome.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Campo nome não pode estar vazio");
             nome.requestFocus();
-            
-        } else if (email.getText().trim().equals("")){
+
+        } else if (email.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Campo email não pode estar vazio");
             email.requestFocus();
-            
-        } else if (new String(senha.getPassword()).trim().equals("")){
+
+        } else if (new String(senha.getPassword()).trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Campo senha não pode estar vazio");
             senha.requestFocus();
-            
+
         } else {
             try {
-                if (c.compararEmails(email.getText())){
-                        JOptionPane.showMessageDialog(null, "email já cadastrado");
-                        email.requestFocus();
+                if (c.compararEmails(email.getText())) {
+                    JOptionPane.showMessageDialog(null, "email já cadastrado");
+                    email.requestFocus();
                 } else {
-                    if (new String(senha.getPassword()).equals(new String(confirmar_senha.getPassword())) ) {
+                    if (new String(senha.getPassword()).equals(new String(confirmar_senha.getPassword()))) {
                         try {
-                            if (this.u == null) {
+                            if (arquivo != null){
+                                try {
+                                    c.adicionarPessoaImagem(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText(), arquivo);
+                                } catch (FileNotFoundException ex) {
+                                    JOptionPane.showMessageDialog(null, "Arquivo corrompido ou inexistente");
+                                }
+                                JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso");
+                                new TelaLogin().setVisible(true);
+                                dispose();
+                            }else if (this.u == null && arquivo == null) {
                                 c.adicionarPessoa(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText());
                                 JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso");
                                 new TelaLogin().setVisible(true);
                                 dispose();
-
                             }
                         } catch (SQLException e) {
                             JOptionPane.showMessageDialog(null, "nao foi possivel cadastrar");
@@ -203,18 +236,31 @@ public class CadastrarUsuario extends javax.swing.JFrame {
                     }
                 }
             } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(null, "nao foi possivel cadastrar");
+                JOptionPane.showMessageDialog(null, "nao foi possivel cadastrar");
             }
         }
 
     }//GEN-LAST:event_jButton_cadastrarActionPerformed
 
+    private void jButtonInserirFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonInserirFotoActionPerformed
+        JFileChooser fc = new JFileChooser();
+        int retorno = fc.showOpenDialog(this);
+
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            arquivo = fc.getSelectedFile();
+            jLabelNomeArquivo.setText(arquivo.getName());
+        }
+    }//GEN-LAST:event_jButtonInserirFotoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cidade_estado;
     private javax.swing.JPasswordField confirmar_senha;
     private javax.swing.JTextField email;
+    private javax.swing.JButton jButtonInserirFoto;
     private javax.swing.JButton jButton_cadastrar;
     private javax.swing.JButton jButton_cancelar;
+    private javax.swing.JLabel jLabelArquivo;
+    private javax.swing.JLabel jLabelNomeArquivo;
     private javax.swing.JLabel jLabel_cadastro_de_usuario;
     private javax.swing.JLabel jLabel_cidade_estado;
     private javax.swing.JLabel jLabel_confirmar_senha;
