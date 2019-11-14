@@ -207,9 +207,10 @@ public class AlterarUsuario extends javax.swing.JFrame {
 
         } else {
             if (new String(senha.getPassword()).equals(new String(confirmar_senha.getPassword()))) {
+                String senhaCript = CriptografaSenha.critografarSenha(new String(senha.getPassword()));
                 if (arquivo != null) {
                     try {
-                        c.alterarPessoaImagem(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText(), arquivo);
+                        c.alterarPessoaImagem(nome.getText(), email.getText(), senhaCript, cidade_estado.getText(), arquivo);
                         JOptionPane.showMessageDialog(null, "Alteração efetuada com sucesso");
                         Usuario user = new Usuario();
                         user.setNome(nome.getText());
@@ -225,7 +226,7 @@ public class AlterarUsuario extends javax.swing.JFrame {
 
                 } else if (arquivo == null) {
 
-                    c.alterar(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText());
+                    c.alterar(nome.getText(), email.getText(), senhaCript, cidade_estado.getText());
                     JOptionPane.showMessageDialog(null, "Alteração efetuada com sucesso");
                     Usuario user = new Usuario();
                     user.setNome(nome.getText());

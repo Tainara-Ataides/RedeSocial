@@ -119,8 +119,9 @@ public class TelaLogin extends javax.swing.JFrame {
       
         Conexao c = new Conexao();//estanciar uma conexao
         c.conectar();//chamar o metodo conectar 
+        String senhaCript = CriptografaSenha.critografarSenha(new String(senha.getPassword()));
         
-        Usuario user = c.login(usuario.getText(), new String(senha.getPassword()));// resultado so login salva na String  variavel
+        Usuario user = c.login(usuario.getText(), senhaCript);// resultado so login salva na String  variavel
 
         if (user != null) {
             new TelaPrincipal(user).setVisible(true);

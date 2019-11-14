@@ -7,9 +7,8 @@ package redeSocialMTP;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.security.MessageDigest;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
@@ -211,10 +210,11 @@ public class CadastrarUsuario extends javax.swing.JFrame {
                     email.requestFocus();
                 } else {
                     if (new String(senha.getPassword()).equals(new String(confirmar_senha.getPassword()))) {
+                        String senhaCript = CriptografaSenha.critografarSenha(new String(senha.getPassword()));
                         try {
                             if (arquivo != null){
                                 try {
-                                    c.adicionarPessoaImagem(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText(), arquivo);
+                                    c.adicionarPessoaImagem(nome.getText(), email.getText(), senhaCript, cidade_estado.getText(), arquivo);
                                 } catch (FileNotFoundException ex) {
                                     JOptionPane.showMessageDialog(null, "Arquivo corrompido ou inexistente");
                                 }
@@ -222,7 +222,7 @@ public class CadastrarUsuario extends javax.swing.JFrame {
                                 new TelaLogin().setVisible(true);
                                 dispose();
                             }else if (this.u == null && arquivo == null) {
-                                c.adicionarPessoa(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText());
+                                c.adicionarPessoa(nome.getText(), email.getText(), senhaCript, cidade_estado.getText());
                                 JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso");
                                 new TelaLogin().setVisible(true);
                                 dispose();
