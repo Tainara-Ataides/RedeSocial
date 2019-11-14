@@ -7,7 +7,6 @@ package redeSocialMTP;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -26,12 +25,12 @@ public class AlterarUsuario extends javax.swing.JFrame {
         initComponents();
         this.u = u;
         nome.setText(u.getNome());
-        email.setText(u.getEmail());        
+        email.setText(u.getEmail());
         email.setEnabled(false);
         cidade_estado.setText(u.getCidadeEstado());
         senha.setText(u.getSenha());
         confirmar_senha.setText(u.getSenha());
-        setLocationRelativeTo (null);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -196,66 +195,64 @@ public class AlterarUsuario extends javax.swing.JFrame {
     private void jButton_alterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_alterarActionPerformed
         Conexao c = new Conexao();
         c.conectar();
+        FileParaByte fpb = new FileParaByte();
 
-        if(nome.getText().trim().equals("")){
+        if (nome.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Campo nome não pode estar vazio");
             nome.requestFocus();
-            
-        } else if (new String(senha.getPassword()).trim().equals("")){
+
+        } else if (new String(senha.getPassword()).trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Campo senha não pode estar vazio");
             senha.requestFocus();
-            
+
         } else {
-            if (new String(senha.getPassword()).equals(new String(confirmar_senha.getPassword())) ) {
-                if(arquivo != null) {
-                   try {
-                       c.alterarPessoaImagem(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText(), arquivo);
+            if (new String(senha.getPassword()).equals(new String(confirmar_senha.getPassword()))) {
+                if (arquivo != null) {
+                    try {
+                        c.alterarPessoaImagem(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText(), arquivo);
                         JOptionPane.showMessageDialog(null, "Alteração efetuada com sucesso");
                         Usuario user = new Usuario();
                         user.setNome(nome.getText());
                         user.setEmail(email.getText());
                         user.setSenha(new String(senha.getPassword()));
                         user.setCidadeEstado(cidade_estado.getText());
-                        user.setImagem(fileParaByte(arquivo));
-                        JOptionPane.showMessageDialog(null, "Alteração efetuada com sucesso ");
-                   } catch (FileNotFoundException ex) {
-                       Logger.getLogger(TelaCriacaoDePost.class.getName()).log(Level.SEVERE, null, ex);
-                   }
-                   
-                   new TelaPrincipal(this.u).setVisible(true);
-                   dispose();
+                        user.setImagem(fpb.fileParaByte(arquivo));
+                        new TelaPrincipal(user).setVisible(true);
+                        dispose();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(TelaCriacaoDePost.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
-              }else if(arquivo == null) {
-                    
-                
-                c.alterar(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText());
-                JOptionPane.showMessageDialog(null, "Alteração efetuada com sucesso");
-                Usuario user = new Usuario();
-                user.setNome(nome.getText());
-                user.setEmail(email.getText());
-                user.setSenha(new String(senha.getPassword()));
-                user.setCidadeEstado(cidade_estado.getText());
-                new TelaPrincipal(user).setVisible(true);
-                dispose();
+                } else if (arquivo == null) {
+
+                    c.alterar(nome.getText(), email.getText(), new String(senha.getPassword()), cidade_estado.getText());
+                    JOptionPane.showMessageDialog(null, "Alteração efetuada com sucesso");
+                    Usuario user = new Usuario();
+                    user.setNome(nome.getText());
+                    user.setEmail(email.getText());
+                    user.setSenha(new String(senha.getPassword()));
+                    user.setCidadeEstado(cidade_estado.getText());
+                    new TelaPrincipal(user).setVisible(true);
+                    dispose();
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Senhas não conferem");
                 senha.requestFocus();
             }
-                
+
         }
-        
+
 
     }//GEN-LAST:event_jButton_alterarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-    JFileChooser fc = new JFileChooser();
+        JFileChooser fc = new JFileChooser();
         int retorno = fc.showOpenDialog(this);
-			
-            if (retorno == JFileChooser.APPROVE_OPTION) {
-                    arquivo = fc.getSelectedFile();
-                    jLabelArquivo.setText(arquivo.getName());
-            }
+
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            arquivo = fc.getSelectedFile();
+            jLabelArquivo.setText(arquivo.getName());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

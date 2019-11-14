@@ -16,7 +16,6 @@ public class Usuario {
     private String email;
     private String senha;
     private String cidadeEstado;
-    
     private byte[] imagem;
 
     public byte[] getImagem() {

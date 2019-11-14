@@ -15,22 +15,21 @@ import java.io.IOException;
  * @author ifg
  */
 public class FileParaByte {
-    
-    public static byte [] fileParaByte(File arquivo) throws FileNotFoundException{
-       FileInputStream fis = null;
-        
+
+    public byte[] fileParaByte(File arquivo) throws FileNotFoundException {
+        FileInputStream fis = null;
+
         byte[] bytesArray = new byte[(int) arquivo.length()];
-        
-        try{
+
+        try {
             fis = new FileInputStream(arquivo);
-           fis.read(bytesArray);
-        fis.close();
+            fis.read(bytesArray);
+            fis.close();
+        } catch (IOException ioExp) {
+
         }
-        catch(IOException ioExp){
-            
-        }
-        
+
         return bytesArray;
-    
+
     }
 }
