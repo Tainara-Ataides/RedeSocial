@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  *
  * @author ifg
  */
-public class ConteudoPost extends javax.swing.JPanel {
+public class ConteudoPostEmail extends javax.swing.JPanel {
     
     Post p = null;
     Usuario u = null;
@@ -27,11 +27,11 @@ public class ConteudoPost extends javax.swing.JPanel {
     /**
      * Creates new form ConteudoPost
      */
-    public ConteudoPost() {
+    public ConteudoPostEmail() {
         initComponents();
     }
 
-    public ConteudoPost(Post post, Usuario user ) {
+    public ConteudoPostEmail(Post post, Usuario user ) {
         this.u = user;
         this.p = post;
         initComponents();

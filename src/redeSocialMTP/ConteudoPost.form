@@ -70,8 +70,8 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jLabelImagem" min="-2" pref="95" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jButtonCurtir" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="7" max="32767" attributes="0"/>
+              <Component id="jButtonCurtir" min="-2" pref="25" max="-2" attributes="0"/>
+              <EmptySpace pref="13" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

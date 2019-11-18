@@ -174,11 +174,35 @@ public class Conexao {
 
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+
         }
 
         return null;
+
+    }
+
+    public Usuario buscarEmail(String email) throws SQLException {
+
+        PreparedStatement ps = this.conn.prepareStatement("SELECT id, nome, "
+                + "cidade_estado, email, foto  FROM pessoa WHERE email = ?");
+        ps.setString(1, email);//atribuir String
+        ResultSet rs = ps.executeQuery(); //executar consulta
+        Usuario u = new Usuario();//instanciar usuario
+
+        if (rs.next()) {// verifico se retornou algum resultado do vetor
+            u.setId(rs.getInt(1));
+            u.setNome(rs.getString(2));
+            u.setCidadeEstado(rs.getString(3));
+            u.setEmail(rs.getString(4));
+            u.setImagem(rs.getBytes(5));
+
+            return u;
+
+        } else {
+            return null;
+
+        }
 
     }
 
@@ -211,8 +235,40 @@ public class Conexao {
             return posts;
         }
     }
+    
+       public ArrayList<Post> buscarPostEmail(int pessoaID) {
 
-    public ArrayList<LikePost> buscarLikePost() {
+        ArrayList<Post> posts = new ArrayList();
+        try {
+            PreparedStatement ps = this.conn.prepareStatement("SELECT post.id, texto, "
+                    + "pessoa_id, imagem, data_post, nome, (SELECT COUNT (*) FROM "
+                    + "like_post WHERE like_post.post_id = post.id) AS likes FROM post "
+                    + "INNER JOIN  pessoa ON (pessoa.id = post.pessoa_id) "
+                    + "WHERE pessoa_id = ? "
+                    + "ORDER BY data_post DESC LIMIT 3"
+            );
+            ps.setInt(1, pessoaID);
+            ResultSet rs = ps.executeQuery(); //executar consulta
+            while (rs.next()) {
+                Post post = new Post();//instanciar usuario
+                post.setId(rs.getInt(1));//setar os usuarios
+                post.setTexto(rs.getString(2));
+                post.setPessoaId(rs.getInt(3));
+                post.setImagem(rs.getBytes(4));
+                post.setDataPost(rs.getDate(5));
+                post.setNomePessoa(rs.getString(6));
+                post.setQuantLike(rs.getInt(7));
+
+                posts.add(post);
+            }
+            return posts;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return posts;
+        }
+    }
+
+    public ArrayList<LikePost> buscarLikePost(int pessoa_id) {
 
         ArrayList<LikePost> likePosts = new ArrayList<LikePost>();
         try {
@@ -222,6 +278,7 @@ public class Conexao {
                     + "INNER JOIN pessoa ON (pessoa.id = post.pessoa_id)"
                     + "ORDER BY like_post.id DESC"
             );
+            ps.setInt(1, pessoa_id);
             ResultSet rs = ps.executeQuery(); //executar consulta
             while (rs.next()) {
                 LikePost likePost = new LikePost();//instanciar usuario
@@ -320,8 +377,8 @@ public class Conexao {
 
     public void alterarPessoaImagem(String nome, String email, String senha, String cidadeEstado, File arquivo) throws FileNotFoundException {
 
+        FileInputStream fis = new FileInputStream(arquivo);
         try {
-            FileInputStream fis = new FileInputStream(arquivo);
             PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
                     + "SET nome = ?, senha = ?, cidade_estado = ?, foto = ? "
                     + "WHERE email = ?");
