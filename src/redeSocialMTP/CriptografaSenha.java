@@ -5,11 +5,9 @@
  */
 package redeSocialMTP;
 
-import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,13 +18,11 @@ public class CriptografaSenha {
 
     public static String critografarSenha(String senha) {
         try {
-            MessageDigest algorithm = MessageDigest.getInstance("SHA");
-            byte messageDigest[] = algorithm.digest(senha.getBytes("unicode"));
-            return new String(messageDigest);
+            MessageDigest algorithm = MessageDigest.getInstance("MD5");
+            algorithm.update(senha.getBytes(), 0, senha.length());
+            return new BigInteger(1, algorithm.digest()).toString(16);
         } catch (NoSuchAlgorithmException ex) {
             JOptionPane.showMessageDialog(null, "Algoritmo inexistente");
-        } catch (UnsupportedEncodingException ex) {
-            JOptionPane.showMessageDialog(null, "Codificação não suportada");
         }
         return null;
     }

@@ -235,8 +235,8 @@ public class Conexao {
             return posts;
         }
     }
-    
-       public ArrayList<Post> buscarPostEmail(int pessoaID) {
+
+    public ArrayList<Post> buscarPostEmail(int pessoaID) {
 
         ArrayList<Post> posts = new ArrayList();
         try {
@@ -292,6 +292,32 @@ public class Conexao {
             return likePosts;
         } catch (SQLException e) {
             return likePosts;
+        }
+    }
+    
+        public ArrayList<Like> buscarLike(int postId) {
+
+        ArrayList<Like> likes = new ArrayList<Like>();
+        try {
+            PreparedStatement ps = this.conn.prepareStatement("SELECT pessoa.nome, "
+                    + "pessoa.foto, like_post.data_like FROM like_post "
+                    + "INNER JOIN pessoa ON (pessoa.id = like_post.pessoa_id) "
+                    + "WHERE like_post.post_id = ? "
+                    + "ORDER BY like_post.id DESC"
+            );
+            ps.setInt(1, postId);
+            ResultSet rs = ps.executeQuery(); //executar consulta
+            while (rs.next()) {
+                Like like = new Like();//instanciar usuario
+                like.setNomePessoa(rs.getString(1));//setar os usuarios
+                like.setFoto(rs.getBytes(2));
+                like.setDataLike(rs.getDate(3));
+
+                likes.add(like);
+            }
+            return likes;
+        } catch (SQLException e) {
+            return likes;
         }
     }
 
@@ -351,12 +377,40 @@ public class Conexao {
     public void registarLike(Integer nomeId, Integer postId) throws SQLException {
 
         try (PreparedStatement st = this.conn.prepareStatement("INSERT INTO like_post "
-                + "(pessoa_id, post_id) VALUES (?, ?)")) {
+                + "(pessoa_id, post_id, data_like) VALUES (?, ?, now())")) {
             st.setInt(1, nomeId);
             st.setInt(2, postId);
             st.executeUpdate();
         }
 
+    }
+
+    public void deslike(int pessoaId, int postId) {
+
+        try {
+            PreparedStatement st = this.conn.prepareStatement("DELETE FROM "
+                    + "like_post WHERE pessoa_id = ? AND post_id = ?");
+            st.setInt(1, pessoaId);
+            st.setInt(2, postId);
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public boolean verificarLike(int pessoaId, int postId) throws SQLException {
+        PreparedStatement ps = this.conn.prepareStatement("SELECT id FROM like_post"
+                + " WHERE pessoa_id = ? AND post_id = ?");
+        ps.setInt(1, pessoaId);
+        ps.setInt(2, postId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void alterar(String nome, String email, String senha, String cidadeEstado) {

@@ -226,7 +226,7 @@ public class AlterarUsuario extends javax.swing.JFrame {
                         Logger.getLogger(TelaCriacaoDePost.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                } else if (arquivo == null && u.getImagem() != null) {
+                } else {
                     c.alterar(nome.getText(), email.getText(), senhaCript, cidade_estado.getText());
                     JOptionPane.showMessageDialog(null, "Alteração efetuada com sucesso");
                     Usuario user = new Usuario();
@@ -238,18 +238,8 @@ public class AlterarUsuario extends javax.swing.JFrame {
                     new TelaPrincipal(user).setVisible(true);
                     dispose();
 
-                } else {
-
-                    c.alterar(nome.getText(), email.getText(), senhaCript, cidade_estado.getText());
-                    JOptionPane.showMessageDialog(null, "Alteração efetuada com sucesso");
-                    Usuario user = new Usuario();
-                    user.setNome(nome.getText());
-                    user.setEmail(email.getText());
-                    user.setSenha(new String(senha.getPassword()));
-                    user.setCidadeEstado(cidade_estado.getText());
-                    new TelaPrincipal(user).setVisible(true);
-                    dispose();
-                }
+                } 
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Senhas não conferem");
                 senha.requestFocus();

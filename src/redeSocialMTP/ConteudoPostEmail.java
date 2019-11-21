@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -20,9 +22,10 @@ import javax.swing.JOptionPane;
  * @author ifg
  */
 public class ConteudoPostEmail extends javax.swing.JPanel {
-    
+    Conexao c = new Conexao();
     Post p = null;
     Usuario u = null;
+    Boolean like = null;
 
     /**
      * Creates new form ConteudoPost
@@ -31,21 +34,30 @@ public class ConteudoPostEmail extends javax.swing.JPanel {
         initComponents();
     }
 
-    public ConteudoPostEmail(Post post, Usuario user ) {
+    public ConteudoPostEmail(Post post, Usuario user) {
         this.u = user;
         this.p = post;
         initComponents();
-        
+
+        try {
+            Boolean like = c.verificarLike(u.getId(), p.getId());
+            this.like = like;
+            if (like) {
+                jButtonCurtir.setText("Deslike");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConteudoPost.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         SimpleDateFormat dataFormat = new SimpleDateFormat("dd/MM/yyyy");
-        
-        
+
         jLabelUsuario.setText(post.getNomePessoa());
         jLabelData.setText(dataFormat.format(post.getDataPost()));
         jTextArea.setText(post.getTexto());
         jLabel1.setText(String.valueOf(post.getQuantLike()));
-        
-        if(post.getImagem() != null){
-        
+
+        if (post.getImagem() != null) {
+
             try {
                 InputStream is = new ByteArrayInputStream(post.getImagem());
                 BufferedImage imag = ImageIO.read(is);
@@ -73,6 +85,7 @@ public class ConteudoPostEmail extends javax.swing.JPanel {
         jButtonCurtir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTextArea = new javax.swing.JTextArea();
+        jButtonVisualizarLike = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setPreferredSize(new java.awt.Dimension(350, 259));
@@ -83,7 +96,7 @@ public class ConteudoPostEmail extends javax.swing.JPanel {
 
         jLabelLike.setText("likes:");
 
-        jButtonCurtir.setText("Curtir");
+        jButtonCurtir.setText("Like");
         jButtonCurtir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCurtirActionPerformed(evt);
@@ -93,6 +106,13 @@ public class ConteudoPostEmail extends javax.swing.JPanel {
         jTextArea.setEditable(false);
         jTextArea.setColumns(20);
         jTextArea.setRows(5);
+
+        jButtonVisualizarLike.setText("Visualizar likes");
+        jButtonVisualizarLike.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVisualizarLikeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -111,8 +131,11 @@ public class ConteudoPostEmail extends javax.swing.JPanel {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonCurtir)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jButtonVisualizarLike)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonCurtir, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabelImagem, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jTextArea, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -133,23 +156,44 @@ public class ConteudoPostEmail extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jLabelImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonCurtir, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonCurtir, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonVisualizarLike, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCurtirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCurtirActionPerformed
-        Conexao c = new Conexao();
-        try {
-            c.registarLike(this.u.getId(), this.p.getId());
-            jLabel1.setText(String.valueOf(c.buscarQuantLike(this.p.getId())));
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Não foi possível registrar seu like");
+    
+               if (like) {
+            try {
+                c.deslike(u.getId(), p.getId());
+                jLabel1.setText(String.valueOf(c.buscarQuantLike(p.getId())));
+                jButtonCurtir.setText("Like");
+                like = false;
+            } catch (SQLException ex) {
+                Logger.getLogger(ConteudoPost.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+
+            try {
+                c.registarLike(this.u.getId(), this.p.getId());
+                jLabel1.setText(String.valueOf(c.buscarQuantLike(this.p.getId())));
+                jButtonCurtir.setText("Deslike");
+                like = true;
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Não foi possível registrar seu like");
+            }
         }
     }//GEN-LAST:event_jButtonCurtirActionPerformed
 
+    private void jButtonVisualizarLikeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVisualizarLikeActionPerformed
+        new TelaVisualizacaoLike(p.getId()).setVisible(true);
+    }//GEN-LAST:event_jButtonVisualizarLikeActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCurtir;
+    private javax.swing.JButton jButtonVisualizarLike;
     private javax.swing.JLabel jLabel1;
     public javax.swing.JLabel jLabelData;
     private javax.swing.JLabel jLabelImagem;
