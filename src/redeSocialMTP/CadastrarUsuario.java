@@ -7,7 +7,6 @@ package redeSocialMTP;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.security.MessageDigest;
 import java.sql.SQLException;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;

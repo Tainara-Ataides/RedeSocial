@@ -23,6 +23,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     Usuario u;
     Post post;
+    int numPagina = 0;
+    int pagina = 1;
 
     /**
      * Creates new form TelaInicial
@@ -48,7 +50,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         }
         jLabel_usuario.setText(user.getNome());
-        mostrar_post();
+        jLabelNumeroPagina.setText(String.valueOf(pagina));
+        mostrar_post(0);
+        jButtonAnterior.setEnabled(false);
         setLocationRelativeTo(null);
     }
 
@@ -73,9 +77,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabelFoto = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButtonAnterior = new javax.swing.JButton();
+        jButtonProximo = new javax.swing.JButton();
+        jLabelNumeroPagina = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Rede Social MTP");
+        setBackground(new java.awt.Color(51, 153, 0));
 
         jButton_alterar_cadastro.setText("Alterar Cadastro");
         jButton_alterar_cadastro.addActionListener(new java.awt.event.ActionListener() {
@@ -103,9 +111,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane2.setBackground(new java.awt.Color(153, 153, 153));
         jScrollPane2.setToolTipText("");
+        jScrollPane2.setAutoscrolls(true);
         jScrollPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
         jPanel1.setAutoscrolls(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -138,6 +149,23 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         jLabel1.setText("Email:");
 
+        jButtonAnterior.setText("<<<");
+        jButtonAnterior.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAnteriorActionPerformed(evt);
+            }
+        });
+
+        jButtonProximo.setText(">>>");
+        jButtonProximo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonProximoActionPerformed(evt);
+            }
+        });
+
+        jLabelNumeroPagina.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabelNumeroPagina.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -162,14 +190,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jTextFieldBuscarUsurio, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSair))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton_alterar_cadastro)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton_criar_post))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonSair))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(88, 88, 88)
+                        .addComponent(jButtonAnterior)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelNumeroPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonProximo)))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -194,12 +229,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonBuscarPost, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonProximo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelNumeroPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(28, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonSair, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -222,24 +262,24 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jButtonBuscarPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarPostActionPerformed
         Conexao c = new Conexao();
         Usuario userB = new Usuario();
-        
+
         if (jTextFieldBuscarUsurio.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Digite o endereço de email");
             jTextFieldBuscarUsurio.requestFocus();
-        }else if(jTextFieldBuscarUsurio.getText().equals(u.getEmail())){
+        } else if (jTextFieldBuscarUsurio.getText().equals(u.getEmail())) {
             JOptionPane.showMessageDialog(null, "Você já está logado");
             jTextFieldBuscarUsurio.requestFocus();
-        }else{
+        } else {
             try {
                 userB = c.buscarEmail(jTextFieldBuscarUsurio.getText());
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao buscar email");
             }
-            if(userB != null){
+            if (userB != null) {
                 new TelaBuscaEmail(u, userB).setVisible(true);
                 dispose();
-                
-            }else{
+
+            } else {
                 JOptionPane.showMessageDialog(null, "Email não encontrado");
             }
         }
@@ -250,14 +290,43 @@ public class TelaPrincipal extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButtonProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProximoActionPerformed
+        Conexao c = new Conexao();
+        int cont = numPagina * 3 + 3;
+        if (!c.buscarPost(cont).isEmpty()){
+            jButtonAnterior.setEnabled(true);
+            jPanel1.removeAll();
+            numPagina += 1;
+            jLabelNumeroPagina.setText(String.valueOf(pagina += 1));
+            mostrar_post(numPagina * 3);
+        } else {
+            jButtonProximo.setEnabled(false);
+        }
+    }//GEN-LAST:event_jButtonProximoActionPerformed
+
+    private void jButtonAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAnteriorActionPerformed
+        if (numPagina != 0) {
+            jButtonProximo.setEnabled(true);
+            jPanel1.removeAll();
+            jLabelNumeroPagina.setText(String.valueOf(pagina -= 1));
+            numPagina -= 1;
+            mostrar_post(numPagina * 3);
+        } else {
+            jButtonAnterior.setEnabled(false);
+        }
+    }//GEN-LAST:event_jButtonAnteriorActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonAnterior;
     private javax.swing.JButton jButtonBuscarPost;
+    private javax.swing.JButton jButtonProximo;
     private javax.swing.JButton jButtonSair;
     private javax.swing.JButton jButton_alterar_cadastro;
     private javax.swing.JButton jButton_criar_post;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelFoto;
+    private javax.swing.JLabel jLabelNumeroPagina;
     private javax.swing.JLabel jLabel_ola;
     private javax.swing.JLabel jLabel_usuario;
     private javax.swing.JPanel jPanel1;
@@ -265,20 +334,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldBuscarUsurio;
     // End of variables declaration//GEN-END:variables
 
-    private Object Cadastro() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void SetLocationRelativeTo(Object object) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void mostrar_post() {
+    private void mostrar_post(int pagina) {
 
         ArrayList<Post> posts = new ArrayList<Post>();
 
         Conexao c = new Conexao();
-        posts = c.buscarPost();
+        posts = c.buscarPost(pagina);
 
         for (Post post1 : posts) {
 

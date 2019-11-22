@@ -56,6 +56,7 @@ public class ConteudoLike extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabelData = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(0, 204, 204));
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jLabelNome.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N

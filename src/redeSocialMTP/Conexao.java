@@ -136,6 +136,7 @@ public class Conexao {
      *
      * Está sempre excluindo a mesma pessoa! A que tem ID = 1!
      */
+
     public void excluir() {
 
         try {
@@ -148,6 +149,19 @@ public class Conexao {
             e.printStackTrace();
         }
 
+    }
+    
+        public void alteraSenha(String email, String senhaCript) {
+        try {
+            PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
+                    + "SET senha = ? WHERE email = ?");
+            st.setString(1, senhaCript);
+            st.setString(2, email);
+            st.executeUpdate();
+            st.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public Usuario login(String email, String senha) {
@@ -206,7 +220,7 @@ public class Conexao {
 
     }
 
-    public ArrayList<Post> buscarPost() {
+    public ArrayList<Post> buscarPost(int pagina) {
 
         ArrayList<Post> posts = new ArrayList();
         try {
@@ -214,8 +228,10 @@ public class Conexao {
                     + "pessoa_id, imagem, data_post, nome, (select COUNT (*) from "
                     + "like_post WHERE like_post.post_id = post.id) as likes FROM post "
                     + "INNER JOIN  pessoa ON (pessoa.id = post.pessoa_id) "
-                    + "ORDER BY data_post DESC limit 3"
+                    + "ORDER BY data_post DESC limit 3 "
+                    + "OFFSET ?"
             );
+            ps.setInt(1, pagina);
             ResultSet rs = ps.executeQuery(); //executar consulta
             while (rs.next()) {
                 Post post = new Post();//instanciar usuario
@@ -413,15 +429,14 @@ public class Conexao {
         }
     }
 
-    public void alterar(String nome, String email, String senha, String cidadeEstado) {
+    public void alterar(String nome, String email, String cidadeEstado) {
         try {
             PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
-                    + "SET nome = ?, senha = ?, cidade_estado = ? "
+                    + "SET nome = ?, cidade_estado = ? "
                     + "WHERE email = ?");
             st.setString(1, nome);
-            st.setString(2, senha);
-            st.setString(3, cidadeEstado);
-            st.setString(4, email);
+            st.setString(2, cidadeEstado);
+            st.setString(3, email);
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
@@ -429,18 +444,17 @@ public class Conexao {
         }
     }
 
-    public void alterarPessoaImagem(String nome, String email, String senha, String cidadeEstado, File arquivo) throws FileNotFoundException {
+    public void alterarPessoaImagem(String nome, String email, String cidadeEstado, File arquivo) throws FileNotFoundException {
 
         FileInputStream fis = new FileInputStream(arquivo);
         try {
             PreparedStatement st = this.conn.prepareStatement("UPDATE pessoa "
-                    + "SET nome = ?, senha = ?, cidade_estado = ?, foto = ? "
+                    + "SET nome = ?, cidade_estado = ?, foto = ? "
                     + "WHERE email = ?");
             st.setString(1, nome);
-            st.setString(2, senha);
-            st.setString(3, cidadeEstado);
-            st.setString(5, email);
-            st.setBinaryStream(4, fis, (int) arquivo.length());
+            st.setString(2, cidadeEstado);
+            st.setBinaryStream(3, fis, (int) arquivo.length());
+            st.setString(4, email);
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {

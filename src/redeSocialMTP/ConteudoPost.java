@@ -88,6 +88,7 @@ public class ConteudoPost extends javax.swing.JPanel {
         jTextArea = new javax.swing.JTextArea();
         jButtonVisualizarLike = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(0, 204, 204));
         setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         setPreferredSize(new java.awt.Dimension(350, 259));
 
