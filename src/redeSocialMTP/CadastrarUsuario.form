@@ -31,8 +31,9 @@
                       <Component id="jButton_cadastrar" min="-2" pref="120" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButtonInserirFoto" pref="130" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jButton_cancelar" min="-2" pref="120" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel_nome" min="-2" max="-2" attributes="0"/>
@@ -66,7 +67,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel_confirmar_senha" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="confirmar_senha" min="-2" pref="269" max="-2" attributes="0"/>
+                      <Component id="confirmar_senha" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="34" max="32767" attributes="0"/>
@@ -113,13 +114,13 @@
                       <Component id="jLabelNomeArquivo" min="-2" pref="18" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <EmptySpace pref="24" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton_cadastrar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="jButton_cancelar" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="jButtonInserirFoto" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="jButton_cadastrar" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                  <Component id="jButton_cancelar" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                  <Component id="jButtonInserirFoto" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
