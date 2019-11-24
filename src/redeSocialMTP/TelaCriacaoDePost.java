@@ -18,11 +18,11 @@ import javax.swing.JOptionPane;
  * @author ifg
  */
 public class TelaCriacaoDePost extends javax.swing.JFrame {
- 
-    Usuario u;        
+
+    Usuario u;
     File arquivo = null;
     int cont = 0;
-    
+
     /**
      * Creates new form TelaCriaçaoDePost
      */
@@ -156,17 +156,15 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
 
     private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
         // TODO add your handling code here:
-        if(jTextPane1.getText().trim().equals("")){
+        if (jTextPane1.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Campo post  não pode estar vazio");
             jTextPane1.requestFocus();
-        }
-       else if(jTextPane1.getText().length() > 140){
+        } else if (jTextPane1.getText().length() > 140) {
             JOptionPane.showMessageDialog(null, "Texto não pode ultrapassar 140 "
                     + "caracteres.");
             jTextPane1.requestFocus();
-        }
-       else if(arquivo != null) {
-           Conexao c = new Conexao();
+        } else if (arquivo != null) {
+            Conexao c = new Conexao();
             c.conectar();
             try {
                 c.inserirPostImagem(jTextPane1.getText(), u.getId(), arquivo);
@@ -176,38 +174,44 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "post salvo com sucesso! ");
             new TelaPrincipal(this.u).setVisible(true);
             dispose();
-           
-       }
-        else{
+
+        } else {
             Conexao c = new Conexao();
             c.inserirPost(jTextPane1.getText(), u.getId());
             JOptionPane.showMessageDialog(null, "post salvo com sucesso! ");
             new TelaPrincipal(this.u).setVisible(true);
             dispose();
         }
-        
+
     }//GEN-LAST:event_salvarActionPerformed
 
     private void abrirImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirImagemActionPerformed
         JFileChooser fc = new JFileChooser();
         int retorno = fc.showOpenDialog(this);
-			
-            if (retorno == JFileChooser.APPROVE_OPTION) {
-                    arquivo = fc.getSelectedFile();
-                    jLabel2.setText(arquivo.getName());
-            }	
+
+        if (retorno == JFileChooser.APPROVE_OPTION) {
+            arquivo = fc.getSelectedFile();
+            jLabel2.setText(arquivo.getName());
+        }
     }//GEN-LAST:event_abrirImagemActionPerformed
 
     private void jTextPane1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextPane1CaretUpdate
+        int caractere = 140;
         cont = jTextPane1.getText().length();
-        jLabelQtdCaracteres.setText(String.valueOf(140 - cont));
-        if(140 - cont <= 0){
+
+        if (caractere - cont >= 0) {
+            jLabelQtdCaracteres.setForeground(Color.black);
+            jLabel4.setForeground(Color.black);
+            jTextPane1.setForeground(Color.black);
+            jLabelQtdCaracteres.setText(String.valueOf(caractere - cont));
+        } else {
             jLabelQtdCaracteres.setForeground(Color.red);
             jLabel4.setForeground(Color.red);
+            jTextPane1.setForeground(Color.red);
+            jLabelQtdCaracteres.setText(String.valueOf(caractere - cont));
         }
     }//GEN-LAST:event_jTextPane1CaretUpdate
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton abrirImagem;
