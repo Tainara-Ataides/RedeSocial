@@ -283,33 +283,6 @@ public class Conexao {
             return posts;
         }
     }
-
-    public ArrayList<LikePost> buscarLikePost(int pessoa_id) {
-
-        ArrayList<LikePost> likePosts = new ArrayList<LikePost>();
-        try {
-            PreparedStatement ps = this.conn.prepareStatement("SELECT like_post.id, "
-                    + "like_post.pessoa_id, post_id, pessoa.nome FROM like_post "
-                    + "INNER JOIN post ON (post.id = like_post.post_id)"
-                    + "INNER JOIN pessoa ON (pessoa.id = post.pessoa_id)"
-                    + "ORDER BY like_post.id DESC"
-            );
-            ps.setInt(1, pessoa_id);
-            ResultSet rs = ps.executeQuery(); //executar consulta
-            while (rs.next()) {
-                LikePost likePost = new LikePost();//instanciar usuario
-                likePost.setId(rs.getInt(1));//setar os usuarios
-                likePost.setNomeId(rs.getInt(2));
-                likePost.setPostId(rs.getInt(3));
-                likePost.setNomeLike(rs.getString(4));
-
-                likePosts.add(likePost);
-            }
-            return likePosts;
-        } catch (SQLException e) {
-            return likePosts;
-        }
-    }
     
         public ArrayList<Like> buscarLike(int postId) {
 
