@@ -5,6 +5,7 @@
  */
 package redeSocialMTP;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
@@ -55,6 +56,11 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
         setTitle("Rede Social MTP");
         setIconImages(null);
 
+        jTextPane1.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                jTextPane1CaretUpdate(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTextPane1);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -83,7 +89,7 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
 
         jLabel3.setText("Arquivo:");
 
-        jLabel4.setText("Quantidade de caracteres disponível:");
+        jLabel4.setText("Caracteres disponíveis:");
 
         jLabelQtdCaracteres.setText("140");
 
@@ -156,8 +162,7 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
         }
        else if(jTextPane1.getText().length() > 140){
             JOptionPane.showMessageDialog(null, "Texto não pode ultrapassar 140 "
-                    + "caracteres. Quantidade de caracteres atual é de " 
-                    + jTextPane1.getText().length() + "...");
+                    + "caracteres.");
             jTextPane1.requestFocus();
         }
        else if(arquivo != null) {
@@ -184,9 +189,6 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
     }//GEN-LAST:event_salvarActionPerformed
 
     private void abrirImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_abrirImagemActionPerformed
-        // TODO add your handling code here:
-   
-        
         JFileChooser fc = new JFileChooser();
         int retorno = fc.showOpenDialog(this);
 			
@@ -195,6 +197,15 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
                     jLabel2.setText(arquivo.getName());
             }	
     }//GEN-LAST:event_abrirImagemActionPerformed
+
+    private void jTextPane1CaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_jTextPane1CaretUpdate
+        cont = jTextPane1.getText().length();
+        jLabelQtdCaracteres.setText(String.valueOf(140 - cont));
+        if(140 - cont <= 0){
+            jLabelQtdCaracteres.setForeground(Color.red);
+            jLabel4.setForeground(Color.red);
+        }
+    }//GEN-LAST:event_jTextPane1CaretUpdate
 
     
 

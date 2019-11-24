@@ -98,6 +98,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="jTextPane1">
+          <Events>
+            <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="jTextPane1CaretUpdate"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -142,7 +145,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Quantidade de caracteres dispon&#xed;vel:"/>
+        <Property name="text" type="java.lang.String" value="Caracteres dispon&#xed;veis:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelQtdCaracteres">
