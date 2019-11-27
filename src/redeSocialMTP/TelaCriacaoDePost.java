@@ -210,7 +210,7 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
             jLabel4.setForeground(Color.red);
             jTextPane1.setForeground(Color.red);
             salvar.setEnabled(false);
-            jLabelQtdCaracteres.setText(String.valueOf(caractere - cont));
+            jLabelQtdCaracteres.setText(String.valueOf(0));
         }
     }//GEN-LAST:event_jTextPane1CaretUpdate
 
