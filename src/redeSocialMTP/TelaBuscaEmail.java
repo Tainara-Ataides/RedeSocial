@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -154,7 +155,7 @@ public class TelaBuscaEmail extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-       private void mostrar_post() {
+    private void mostrar_post() {
 
         ArrayList<Post> posts = new ArrayList<Post>();
 
@@ -167,6 +168,12 @@ public class TelaBuscaEmail extends javax.swing.JFrame {
 
             jPanel1.add(conteudo);
         }
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                jScrollPane1.getVerticalScrollBar().setValue(0);
+            }
+        });
     }
-    
+
 }

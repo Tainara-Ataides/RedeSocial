@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Locale;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -55,6 +57,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         mostrar_post(0);
         jButtonAnterior.setEnabled(false);
         setLocationRelativeTo(null);
+
     }
 
     /**
@@ -316,14 +319,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
             jButtonAnterior.setEnabled(false);
         }
     }//GEN-LAST:event_jButtonAnteriorActionPerformed
-
-//    SwingUtilities.invokeLater ( 
-//        new Runnable()){
-//        @Override
-//        public void run() {
-//    
-//    }
-//    }
             
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -356,5 +351,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
             jPanel1.add(conteudo);
         }
+           
+        SwingUtilities.invokeLater (new Runnable() {
+            @Override
+            public void run() {
+                jScrollPane2.getVerticalScrollBar().setValue(0);
+            }
+        });
     }
 }
