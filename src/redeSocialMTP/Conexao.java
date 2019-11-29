@@ -328,38 +328,34 @@ public class Conexao {
                 + " WHERE email = ?");
         ps.setString(1, email);
         ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return true;
-        } else {
-            return false;
-        }
+        return rs.next();
     }
 
     public void adicionarPessoa(String nome, String email, String senha, String cidadeEstado) throws SQLException {
 
-        PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa "
-                + "(nome, email, senha, cidade_estado) VALUES (?, ?, ?, ?)");
-        st.setString(1, nome);
-        st.setString(2, email);
-        st.setString(3, senha);
-        st.setString(4, cidadeEstado);
-        st.executeUpdate();
-        st.close();
+        try (PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa "
+                + "(nome, email, senha, cidade_estado) VALUES (?, ?, ?, ?)")) {
+            st.setString(1, nome);
+            st.setString(2, email);
+            st.setString(3, senha);
+            st.setString(4, cidadeEstado);
+            st.executeUpdate();
+        }
 
     }
 
     public void adicionarPessoaImagem(String nome, String email, String senha, String cidadeEstado, File imagem) throws SQLException, FileNotFoundException {
 
         FileInputStream fis = new FileInputStream(imagem);
-        PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa "
-                + "(nome, email, senha, cidade_estado, foto) VALUES (?, ?, ?, ?, ?)");
-        st.setString(1, nome);
-        st.setString(2, email);
-        st.setString(3, senha);
-        st.setString(4, cidadeEstado);
-        st.setBinaryStream(5, fis, imagem.length());
-        st.executeUpdate();
-        st.close();
+        try (PreparedStatement st = this.conn.prepareStatement("INSERT INTO pessoa "
+                + "(nome, email, senha, cidade_estado, foto) VALUES (?, ?, ?, ?, ?)")) {
+            st.setString(1, nome);
+            st.setString(2, email);
+            st.setString(3, senha);
+            st.setString(4, cidadeEstado);
+            st.setBinaryStream(5, fis, imagem.length());
+            st.executeUpdate();
+        }
 
     }
 
@@ -384,7 +380,6 @@ public class Conexao {
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
-            e.printStackTrace();
         }
 
     }
@@ -413,7 +408,6 @@ public class Conexao {
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -431,7 +425,6 @@ public class Conexao {
             st.executeUpdate();
             st.close();
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 }

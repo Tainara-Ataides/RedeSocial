@@ -56,6 +56,7 @@ public class AlterarUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Rede Social MTP");
+        setResizable(false);
 
         jLabel_cadastro_de_usuario.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel_cadastro_de_usuario.setText("Alterar cadastro");

@@ -55,6 +55,7 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Rede Social MTP");
         setIconImages(null);
+        setResizable(false);
 
         jTextPane1.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {

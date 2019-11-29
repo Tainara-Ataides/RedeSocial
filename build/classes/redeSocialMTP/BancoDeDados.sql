@@ -28,5 +28,5 @@ CREATE TABLE like_post(
 	
 	PRIMARY KEY (id),
 	FOREIGN KEY (pessoa_id) REFERENCES pessoa (id),
-	FOREIGN KEY (post_id) REFERENCES post (id)
+	FOREIGN KEY (post_id) REFERENCES post (id) ON DELETE CASCADE
 );
