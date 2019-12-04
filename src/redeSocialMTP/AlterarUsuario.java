@@ -199,7 +199,7 @@ public class AlterarUsuario extends javax.swing.JFrame {
                     new TelaPrincipal(user).setVisible(true);
                     dispose();
                 } catch (FileNotFoundException ex) {
-                    Logger.getLogger(TelaCriacaoDePost.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Arquivo corrompido ou inexistente");
                 }
 
             } else {

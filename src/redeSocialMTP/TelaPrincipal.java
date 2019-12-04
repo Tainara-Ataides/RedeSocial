@@ -48,7 +48,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 ImageIcon icon = new ImageIcon(imag);
                 jLabelFoto.setIcon(icon);
             } catch (IOException ex) {
-
+                JOptionPane.showMessageDialog(null, "Não foi possivel renderizar a imagem");
             }
         }
         jLabel_usuario.setText(user.getNome());

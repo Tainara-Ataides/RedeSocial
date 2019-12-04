@@ -164,6 +164,7 @@ public class TelaBuscaEmail extends javax.swing.JFrame {
 
             jPanel1.add(conteudo);
         }
+        
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {

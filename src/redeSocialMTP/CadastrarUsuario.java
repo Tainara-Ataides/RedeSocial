@@ -223,7 +223,7 @@ public class CadastrarUsuario extends javax.swing.JFrame {
                                 JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso");
                                 new TelaLogin().setVisible(true);
                                 dispose();
-                            }else if (this.u == null && arquivo == null) {
+                            }else {
                                 c.adicionarPessoa(nome.getText(), email.getText(), senhaCript, cidade_estado.getText());
                                 JOptionPane.showMessageDialog(null, "Cadastro efetuado com sucesso");
                                 new TelaLogin().setVisible(true);

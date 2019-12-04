@@ -170,7 +170,7 @@ public class TelaCriacaoDePost extends javax.swing.JFrame {
             try {
                 c.inserirPostImagem(jTextPane1.getText(), u.getId(), arquivo);
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(TelaCriacaoDePost.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "Arquivo corrompido ou ausente");
             }
             JOptionPane.showMessageDialog(null, "post salvo com sucesso! ");
             new TelaPrincipal(this.u).setVisible(true);
